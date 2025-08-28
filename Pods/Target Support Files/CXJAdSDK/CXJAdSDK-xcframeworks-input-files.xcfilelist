@@ -1,0 +1,7 @@
+${PODS_ROOT}/Target Support Files/CXJAdSDK/CXJAdSDK-xcframeworks.sh
+${PODS_ROOT}/CXJAdSDK/CXJAdSDK/Frameworks/CXBDAdapter.xcframework
+${PODS_ROOT}/CXJAdSDK/CXJAdSDK/Frameworks/CXFWAdapter.xcframework
+${PODS_ROOT}/CXJAdSDK/CXJAdSDK/Frameworks/CXJADAdapter.xcframework
+${PODS_ROOT}/CXJAdSDK/CXJAdSDK/Frameworks/CXJAdSDK.xcframework
+${PODS_ROOT}/CXJAdSDK/CXJAdSDK/Frameworks/CXAdSDK.xcframework
+${PODS_ROOT}/CXJAdSDK/CXJAdSDK/Frameworks/CXQMAdapter.xcframework

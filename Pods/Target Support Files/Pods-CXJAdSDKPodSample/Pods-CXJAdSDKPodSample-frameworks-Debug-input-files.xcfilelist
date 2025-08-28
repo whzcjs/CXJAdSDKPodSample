@@ -1,0 +1,7 @@
+${PODS_ROOT}/Target Support Files/Pods-CXJAdSDKPodSample/Pods-CXJAdSDKPodSample-frameworks.sh
+${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework
+${BUILT_PRODUCTS_DIR}/MJExtension/MJExtension.framework
+${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework
+${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework
+${BUILT_PRODUCTS_DIR}/Toast/Toast.framework
+${PODS_XCFRAMEWORKS_BUILD_DIR}/QuMengAdSDK/QuMengAdSDK.framework/QuMengAdSDK

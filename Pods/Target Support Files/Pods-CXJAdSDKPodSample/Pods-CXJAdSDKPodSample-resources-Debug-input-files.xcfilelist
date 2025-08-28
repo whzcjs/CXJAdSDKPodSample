@@ -1,0 +1,5 @@
+${PODS_ROOT}/Target Support Files/Pods-CXJAdSDKPodSample/Pods-CXJAdSDKPodSample-resources.sh
+${PODS_ROOT}/BaiduMobAdSDK/baidumobadsdk.bundle
+${PODS_ROOT}/CXJAdSDK/CXJAdSDK/Resources/CXAdsBundle.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/JADYun/JADYun.bundle
+${PODS_ROOT}/PTGAdFramework/Frameworks/PTGAdSDK.bundle

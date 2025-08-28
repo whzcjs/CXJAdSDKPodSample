@@ -1,13 +1,23 @@
 //
 //  AppDelegate.m
-//  CXJAdSDKPodSample
+//  CXAdSDKSample
 //
-//  Created by AustinYang on 2025/8/27.
+//  Created by AustinYang on 2025/8/25.
 //
 
 #import "AppDelegate.h"
+#import "SplashAdDelegate.h"
+#import <CXJAdSDK/CXJAdSDK.h>
+#import <Toast.h>
+#import <CXJAdSDKPodSample-Swift.h>
+#import <AppTrackingTransparency/AppTrackingTransparency.h>
+#import <AdSupport/AdSupport.h>
 
 @interface AppDelegate ()
+@property (strong, nonatomic) CXJSplashAd *cxjSplashAd;
+
+@property (strong, nonatomic) UIView *bottomView;
+@property (strong, nonatomic) SplashAdDelegate *splashDelegate;
 
 @end
 
@@ -15,26 +25,79 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    NSString *sdkVersion = [CXJAdSDKManager sdkVersion];
+    NSLog(@"cx ad sdk version = %@", sdkVersion);
+    
+    
+    
+    [NetworkOnceTrigger.shared startMonitoringIfNeeded:^{
+        [self initCXAdSDK];
+    }];
+
+    
+    
     return YES;
 }
 
+- (void)initCXAdSDK {
+    BOOL result = [CXJAdSDKManager initWithAppId:kAppId
+                                       secretKey:kSecretKey];
+    
+    if (!result) {
+        NSLog(@"--------SDK初始化失败");
+    }
+    else {
+        [CXJAdSDKManager startWithCompletionHandler:^(BOOL success, NSError * _Nonnull error) {
+            NSLog(@"--------sdk 初始化结果 = %@ error = %@", @(success), error);
+            if (!success && error) {
+                [self.window.rootViewController.view makeToast:[NSString stringWithFormat:@"%@", error]];
+            }
+            if (success) {
+                [self.window.rootViewController.view makeToast:[NSString stringWithFormat:@"sdk初始化成功"]];
+                self.cxjSplashAd = [[CXJSplashAd alloc] initWithPlacementId: kSplashId];
+                self.cxjSplashAd.delegate = self.splashDelegate;
+                self.cxjSplashAd.viewController = self.window.rootViewController;
+                self.cxjSplashAd.fetchDelay = 0.1;
+                self.cxjSplashAd.bottomView = self.bottomView;
+                [self.cxjSplashAd loadAd];
+            }
+        }];
+    }
+}
 
-#pragma mark - UISceneSession lifecycle
+- (UIView *)bottomView {
+    if (!_bottomView) {
+        _bottomView = [[UIView alloc] initWithFrame:(CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 100))];
+        _bottomView.backgroundColor = UIColor.orangeColor;
+    }
+    return _bottomView;
+}
 
-
-- (UISceneConfiguration *)application:(UIApplication *)application configurationForConnectingSceneSession:(UISceneSession *)connectingSceneSession options:(UISceneConnectionOptions *)options {
-    // Called when a new scene session is being created.
-    // Use this method to select a configuration to create the new scene with.
-    return [[UISceneConfiguration alloc] initWithName:@"Default Configuration" sessionRole:connectingSceneSession.role];
+- (SplashAdDelegate *)splashDelegate {
+    if (!_splashDelegate) {
+        _splashDelegate = [[SplashAdDelegate alloc] initWithWithWindow:self.window
+                                                             cxjSplash:self.cxjSplashAd];
+    }
+    return _splashDelegate;
 }
 
 
-- (void)application:(UIApplication *)application didDiscardSceneSessions:(NSSet<UISceneSession *> *)sceneSessions {
-    // Called when the user discards a scene session.
-    // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-    // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-}
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    if (@available(iOS 14, *)) {
+        [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+            if (status == ATTrackingManagerAuthorizationStatusAuthorized) {
+                NSString *idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
+                NSLog(@"--------idfa = %@", idfa);
+                
+            } else {
+                
+            }
+        }];
+    } else {
+        
+    }
 
+}
 
 @end
